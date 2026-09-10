@@ -23,8 +23,8 @@ requires. A Kisslinger file has the structure
     <R> <Z>                     n_RZ lines, repeated for every phi
     ...
 
-Usage:
-    python target_generation.py [output_dir]
+Usage, from the repository root:
+    python emc3_eirene_input/target_generation.py [output_dir]
 
 Defaults:
     output_dir = output
