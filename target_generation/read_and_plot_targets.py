@@ -10,7 +10,7 @@ surfaces at a few toroidal angles.
 All lengths are in cm and all angles in degrees, as in the Kisslinger files.
 
 Usage, from the repository root:
-    python emc3_eirene_input/read_and_plot_targets.py [output_dir]
+    python target_generation/read_and_plot_targets.py [output_dir]
 
 Defaults:
     output_dir = output
