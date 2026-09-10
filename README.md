@@ -91,10 +91,8 @@ what it reproduces.
 | `input_params_paper_grids_one_and_multi_zone.dat` | Grids of the paper: the multi-zone (`flag_type_init = 3`) and the one-zone (`flag_type_init = 4`) grid at low resolution, one poloidal plane | `island_alinged_grid.py`, `one_zone_grid.py` |
 | `input_params_paper_box_tracing.dat` | Field-line tracing of the paper: a box of 20 x 20 points near the X-point over 60 field periods | `trace_box_points.py` |
 | `input_params_paper_poincare_x_point.dat` | Poincaré plot of the paper zoomed on the X-point, 5/5 island alone, 150 field periods with scipy | `island_alinged_grid.py` |
+| `input_params_paper_appendix_spacing.dat` | Spacing functions of the appendix of the paper: island-aligned grid with the cubic polynomial radial spacing and extreme spacing parameters, one poloidal plane | `island_alinged_grid.py` |
 | `input_params_poincare_analyt_example.dat` | Poincaré plot with the analytic pendulum solution | `island_alinged_grid.py` |
-
-The initial points of the Poincaré plot of the paper were placed with a spacing option that is
-not part of this repository, so their distribution differs from the published figure.
 
 ### EMC3-EIRENE input files
 

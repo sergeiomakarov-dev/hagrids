@@ -1,6 +1,6 @@
 ## Poincare plot of the paper zoomed on the island X-point: the 5/5 island alone, traced over 150 field periods with scipy
 ## Run: python island_alinged_grid.py
-## The initial points of the paper were placed with a spacing option that is not part of this repository, so their distribution differs
+## The initial points are placed with the cubic polynomial spacing function in the radial direction (flag_rad_spacing_fun = 1)
 
 ## Common input parameters
 
@@ -72,6 +72,14 @@ alpha_island_rad = 0.1        # Exponent controls the radial cell size in the is
 alpha_core_rad = 3.0          # Exponent controls the radial cell size in the core region
 alpha_pfr_rad = 0.02          # Exponent controls the radial cell size in the PFR region
 alpha_pol = 2.00              # Exponent controls the poloidal cell size
+
+# Spacing function: 0 for the power function u^alpha, 1 for the cubic polynomial with the slopes alpha at the start and beta at the end of the interval
+flag_rad_spacing_fun = 1      # Radial spacing function
+flag_pol_spacing_fun = 0      # Poloidal spacing function
+beta_island_rad = 3.0         # Relative radial cell size at the O-point side of the island, used if flag_rad_spacing_fun = 1
+beta_core_rad = 0.02          # Relative radial cell size at the separatrix side of the core region, used if flag_rad_spacing_fun = 1
+beta_pfr_rad = 3.0            # Relative radial cell size at the outer boundary of the PFR region, used if flag_rad_spacing_fun = 1
+beta_pol = 2.0                # Relative poloidal cell size at the O-point level, used if flag_pol_spacing_fun = 1
 
 min_E_fac = 250               # Factor that defines a minimal energy in the island, which defines the boundary near O-point. min_E = - 2 * A / min_E_fac
 
