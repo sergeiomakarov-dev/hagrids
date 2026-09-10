@@ -1,0 +1,13 @@
+input_params.dat
+*.pkl
+.DS_Store
+.gitignore.swp
+.ipynb_checkpoints/
+*.aux
+*.log
+*.pdf
+*.gz
+tmp*
+__pycache__/
+base0.dat
+poincare_map_*.dat

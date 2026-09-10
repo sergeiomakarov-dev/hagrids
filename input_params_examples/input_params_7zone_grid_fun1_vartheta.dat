@@ -1,0 +1,92 @@
+## Common input parameters 
+
+# Geometry 
+psi_t_min = 0.5		# Minimal toroidal flux defines inner boundary position (Wb)
+psi_t_max = 1.76 	# Maximal toroidal flux defines outer boundary position (Wb) 
+B_0 = 1 		# Toroidal magnetic field on the axis (T)
+R_0 = 5.9 		# Major radius (m)
+
+# Iota profile: iota (psi_t) = iota_a * psi_t + iota_b
+iota_b = 0.7		# First iota coefficient
+iota_a = 0.3		# Second iota coefficient
+
+# Toroidal direction parameters
+n_turns = 1		# Number of field periods to trace
+nfp = 5			# Field period
+points = 45		# Points per one field period 
+n_poincare = 46		# First n_poincare poloidal plane will be stored in the file
+n_space_points = 1	# Step in points between two poloidal plane that are stored.
+# If you generate a grid: usually n_poicare = (points * n_turns / n_space_points) + 1. 
+# If you generate a poincare plot:  For flag_sym = 1, n_space_points = 2 * points and for flag_sym = 0, n_space_points = points is recommended. 
+
+## Time independent hamiltonian method input parameters
+
+# Island parameters
+m = 5			# Poloidal number 
+n = 5			# Toroidal number 
+A = -6e-3		# Perturbation amplitude (should be a negative number, if there is no strong reason to do otherwise)
+k = 1.8
+m1 = 5
+n1 = 5
+
+m2 = 11
+n2 = 10
+
+A1 = -6e-3		        # Perturbation amplitude for the time dependent operation
+A2 = 0		        	# Perturbation amplitude for the time dependent operation
+
+# Control initial points
+flag_type_init = 3	# Flag controls a type of the points initialization ( = 3 for island aligned grid, = 4 for one zone grid)
+
+n_E = 74		# Number of radial points in the island
+n_E_core = 40		# Number of radial points in the core region
+n_E_pfr = 24		# Number of radial points in the PFR region
+
+n_kin = 37		# Number of poloidal points from X-point to O-point level (quarter of island)
+
+alpha_island_rad = 2	# Exponent controls the radial cell size in the island
+alpha_core_rad = 0.2	# Exponent controls the radial cell size in the core region
+alpha_pfr_rad = 3.0	# Exponent controls the radial cell size in the PFR region
+
+alpha_pol = 2		# Exponent controls the poloidal cell size
+
+min_E_fac = 250		# Factor that defines a minimal energy in the island, which defines the boundary near O-point. min_E = - 2 * A / min_E_fac
+
+frac_d_1 = 0.07		# Used, if flag_type_init = 4 (one zone grid). The frac_d_1 controls the flux surfaces in the core and pfr regions, which are used for a grid generation as intermediate flux surfaces. Larger frac_d_1 makes these surfaces further from the separatrix
+
+## Control flags
+
+#Integrators
+flag_analyt = 0
+flag_Stoermer_Verlet = 0
+flag_Stoermer_Verlet_mod = 0
+flag_Yoshida = 0
+flag_Stoermer_Verlet_td = 0
+flag_scipy_num_td = 0
+flag_Yoshida_td = 1
+
+#Methods (in the case of the scipy library usage)
+method = 'Radau'
+#method = 'RK45'
+#method = 'BDF'
+#method = 'LSODA'
+
+#Magnetic field shape 
+flag_vartheta = 1			# If 1, the vartheta is shifted with respect to the theta (toroidal configuration, B ~ 1/R). If 0, then vartheta = theta (cylindrical configuration, B ~ const)
+flag_type_A_fun = 1			# If 1, a linear in psi the perturbation amplitude is used in the Hamiltonian. If 0, a constant in psi the perturbation amplitude is used in the Hamiltonian
+flag_poloidal_initialization = 1	# If 1, a poloidal initialization is based on the cos(theta) spacing. If 0, a poloidal initialization is based on the kinetic energy spacing
+
+# Traicing
+flag_sym = 1		# If 1, a field-line tracing is symmetrically performed in the negative direction. If 0, then only in positive direction a field-line is performed.
+
+# Plots
+flag_plot_grid = 0	# If 1, 2D plot of the grid is build
+flag_plot_cell_size = 0	# If 1, 1D plots of the cell size distribution are build
+flag_poincare = 0
+flag_plot_field_lines_n_magnetic_field = 0
+
+# Output 
+flag_output = 1		# If 1, grid (or poincare) data is stored in *.plk files 
+
+# Path
+path ="_fun1_yotd_7z_vartheta"
