@@ -51,6 +51,25 @@ Some auxiliary analysis scripts are also provided in MATLAB (`*.m`).
 
 Example input files are provided in [input_params_examples/](input_params_examples/), see the list below. Generated grids and data are written to the [output/](output/) directory.
 
+#### Cell size distribution
+
+The grid points are placed by a spacing function that maps uniformly spaced values
+`u` in `[0, 1]` onto each grid interval: radially from the inner boundary to the separatrix
+(core), from the separatrix to the O-point (island) and from the separatrix to the outer
+boundary (PFR); poloidally from the X-point to the O-point level. Two spacing functions are
+available and are selected separately for the radial and the poloidal direction by
+`flag_rad_spacing_fun` and `flag_pol_spacing_fun`:
+
+| Flag | Spacing function | Parameters |
+| --- | --- | --- |
+| `0` | Power function `u^alpha` | `alpha_island_rad`, `alpha_core_rad`, `alpha_pfr_rad`, `alpha_pol` |
+| `1` | Cubic polynomial with the slopes `alpha` at the start and `beta` at the end of the interval | the `alpha_*` parameters and `beta_island_rad`, `beta_core_rad`, `beta_pfr_rad`, `beta_pol` |
+
+For the cubic polynomial, `alpha` and `beta` are the cell sizes at the two ends of the
+interval relative to the uniform spacing. The polynomial has to be monotonic; otherwise the
+script stops with an error. The spacing functions of the appendix of the paper are
+reproduced by `input_params_examples/input_params_paper_appendix_spacing.dat`.
+
 ### One-zone grid generation
 
 For a one-zone grid (set `flag_type_init = 4` in the input parameters), run:
@@ -72,10 +91,8 @@ what it reproduces.
 | `input_params_paper_grids_one_and_multi_zone.dat` | Grids of the paper: the multi-zone (`flag_type_init = 3`) and the one-zone (`flag_type_init = 4`) grid at low resolution, one poloidal plane | `island_alinged_grid.py`, `one_zone_grid.py` |
 | `input_params_paper_box_tracing.dat` | Field-line tracing of the paper: a box of 20 x 20 points near the X-point over 60 field periods | `trace_box_points.py` |
 | `input_params_paper_poincare_x_point.dat` | Poincaré plot of the paper zoomed on the X-point, 5/5 island alone, 150 field periods with scipy | `island_alinged_grid.py` |
+| `input_params_paper_appendix_spacing.dat` | Spacing functions of the appendix of the paper: island-aligned grid with the cubic polynomial radial spacing and extreme spacing parameters, one poloidal plane | `island_alinged_grid.py` |
 | `input_params_poincare_analyt_example.dat` | Poincaré plot with the analytic pendulum solution | `island_alinged_grid.py` |
-
-The initial points of the Poincaré plot of the paper were placed with a spacing option that is
-not part of this repository, so their distribution differs from the published figure.
 
 ### EMC3-EIRENE input files
 

@@ -104,12 +104,19 @@ min_E_fac = 250
 frac_d_1 = 0.07
 
     #n_lines_tot = 37
-    
+
+flag_rad_spacing_fun = 0
 alpha_island_rad = 3
 alpha_core_rad = 0.4
 alpha_pfr_rad = 2.4
 
+beta_island_rad = 1.0
+beta_core_rad = 1.0
+beta_pfr_rad = 1.0
+
+flag_pol_spacing_fun = 0
 alpha_pol = 2
+beta_pol = 1
 
 psi_width_2 = 0.015
 psi_shift_2 = 1.73

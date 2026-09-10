@@ -577,22 +577,55 @@ def make_poincare (phi_span, alpha_0, psi_t_0, n_lines_tot):
                
     return R_lines, Z_lines, theta_lines, phi
 
-def poloidal_spacing(a, b, n, alpha=1):
-    # Generate linearly spaced points between 0 and 1
-    u = np.linspace(0, 1, n)
-    
-    # Transform linearly spaced points using exponential function
-    exp_points = a + (b - a) * u ** alpha
-    
-    return exp_points
+def cubic_from_derivatives_monotonic(p, q, x_vals):
+    """
+    Return y(x_vals), where y(x) is the cubic polynomial mapping [0,1] to [0,1]
+    with y'(0) = p and y'(1) = q. p and q are the cell sizes at the two ends of
+    the interval relative to the uniform spacing. Raises ValueError if the
+    polynomial is not monotonic on [0,1].
+    """
+    a = q + p - 2
+    b = 3 - q - 2 * p
+    c = p
 
-def radial_spacing(a, b, n, alpha=1):
+    def y(x):
+        return a * x**3 + b * x**2 + c * x
+
+    def dy_dx(x):
+        return 3 * a * x**2 + 2 * b * x + c
+
+    # Check monotonicity at many points
+    derivative_vals = dy_dx(x_vals)
+    if np.any(derivative_vals < 0):
+        raise ValueError(f"The cubic with y'(0)={p}, y'(1)={q} is not monotonic on [0,1].")
+    y_out = y(x_vals)
+    return y_out
+
+def poloidal_spacing(a, b, n, alpha=1, beta=1, flag_spacing_fun=0):
     # Generate linearly spaced points between 0 and 1
     u = np.linspace(0, 1, n)
-     
-    # Transform linearly spaced points using exponential function
-    exp_points = a + (b - a) * u ** alpha     
-    return exp_points
+
+    if flag_spacing_fun==0:
+        # Transform linearly spaced points using the power function
+        output_points = a + (b - a) * u ** alpha
+    elif flag_spacing_fun==1:
+        # Transform linearly spaced points using the cubic polynomial with the slopes alpha and beta at the ends
+        tmp = cubic_from_derivatives_monotonic(alpha, beta, u)
+        output_points = a + (b - a) * tmp
+    return output_points
+
+def radial_spacing(a, b, n, alpha=1, beta=1, flag_spacing_fun=0):
+    # Generate linearly spaced points between 0 and 1
+    u = np.linspace(0, 1, n)
+
+    if flag_spacing_fun==0:
+        # Transform linearly spaced points using the power function
+        output_points = a + (b - a) * u ** alpha
+    elif flag_spacing_fun==1:
+        # Transform linearly spaced points using the cubic polynomial with the slopes alpha and beta at the ends
+        tmp = cubic_from_derivatives_monotonic(alpha, beta, u)
+        output_points = a + (b - a) * tmp
+    return output_points
 
 def calculate_hypotenuse(x, y):
     return np.sqrt(x**2 + y**2)

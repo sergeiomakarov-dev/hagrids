@@ -17,7 +17,8 @@ def gamma_p_in_island(Q, Q_X, g, p_0, m_period):
     gamma_arr_neg_2 = np.zeros((ip.n_kin))
     
     if ip.flag_poloidal_initialization == 0 and ip.flag_type_A_fun == 0:
-         kin_tilde_arr[:] = fi.poloidal_spacing(0, g+Q, ip.n_kin, alpha=ip.alpha_pol)
+         kin_tilde_arr[:] = fi.poloidal_spacing(0, g+Q, ip.n_kin, alpha=ip.alpha_pol, beta=ip.beta_pol,
+                                   flag_spacing_fun=ip.flag_pol_spacing_fun)
          for i_kin_tilde in range(len(kin_tilde_arr)):
              if i_kin_tilde == len(kin_tilde_arr)-1:
                  p_arr[i_kin_tilde] = np.sqrt(
@@ -66,7 +67,8 @@ def gamma_p_in_island(Q, Q_X, g, p_0, m_period):
                                                  (g * fi.A_fun(max_gamma_p_1, p_0, ip.k, ip.flag_type_A_fun)) ) \
                  + 2 * np.pi * m_period
          cos_gamma_arr = fi.poloidal_spacing(np.cos(max_gamma_1), 1.0,
-                                             ip.n_kin, alpha=ip.alpha_pol)
+                                             ip.n_kin, alpha=ip.alpha_pol, beta=ip.beta_pol,
+                                                                       flag_spacing_fun=ip.flag_pol_spacing_fun)
          gamma_arr[:] = np.arccos(cos_gamma_arr[:]) + 2 * np.pi * m_period
          gamma_arr_2[:] = np.arccos(cos_gamma_arr[:]) + 2 * np.pi * m_period
          gamma_arr_neg[:] = -np.arccos(cos_gamma_arr[:]) + 2 * np.pi * m_period
@@ -99,7 +101,8 @@ for m_period in range(ip.m):
     Q_O = fi.X_O_energy(0.5, -g*ip.k/p_0, -g, ip.flag_type_A_fun)
     Q_X = fi.X_O_energy(0.5, g*ip.k/p_0, g, ip.flag_type_A_fun)
     
-    Q_arr = fi.radial_spacing(Q_X, Q_X/ip.min_E_fac+Q_O, ip.n_E, alpha=ip.alpha_island_rad)
+    Q_arr = fi.radial_spacing(Q_X, Q_X/ip.min_E_fac+Q_O, ip.n_E, alpha=ip.alpha_island_rad, beta=ip.beta_island_rad,
+                              flag_spacing_fun=ip.flag_rad_spacing_fun)
     
     cos_gamma_arr = np.zeros(ip.n_kin)
     p_arr = np.zeros((ip.n_E, ip.n_kin))

@@ -1,4 +1,4 @@
-34## Common input parameters 
+## Common input parameters 
 
 # Geometry 
 psi_t_min = 0.65	# Minimal toroidal flux defines inner boundary position (Wb)
@@ -38,6 +38,15 @@ alpha_core_rad = 0.4	# Exponent controls the radial cell size in the core region
 alpha_pfr_rad = 2.4	# Exponent controls the radial cell size in the PFR region
 
 alpha_pol = 2		# Exponent controls the poloidal cell size
+
+# Spacing function: 0 for the power function u^alpha, 1 for the cubic polynomial with the slopes alpha at the start and beta at the end of the interval
+flag_rad_spacing_fun = 0	# Radial spacing function
+flag_pol_spacing_fun = 0	# Poloidal spacing function
+
+beta_island_rad = 1.0	# Relative radial cell size at the O-point side of the island, used if flag_rad_spacing_fun = 1
+beta_core_rad = 1.0	# Relative radial cell size at the separatrix side of the core region, used if flag_rad_spacing_fun = 1
+beta_pfr_rad = 1.0	# Relative radial cell size at the outer boundary of the PFR region, used if flag_rad_spacing_fun = 1
+beta_pol = 1.0		# Relative poloidal cell size at the O-point level, used if flag_pol_spacing_fun = 1
 
 min_E_fac = 250		# Factor that defines a minimal energy in the island, which defines the boundary near O-point. min_E = - 2 * A / min_E_fac
 
