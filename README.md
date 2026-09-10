@@ -49,7 +49,7 @@ Some auxiliary analysis scripts are also provided in MATLAB (`*.m`).
    python island_alinged_grid.py
    ```
 
-Example input files are provided in [input_params_examples/](input_params_examples/). Generated grids and data are written to the [output/](output/) directory.
+Example input files are provided in [input_params_examples/](input_params_examples/), see the list below. Generated grids and data are written to the [output/](output/) directory.
 
 ### One-zone grid generation
 
@@ -58,6 +58,24 @@ For a one-zone grid (set `flag_type_init = 4` in the input parameters), run:
 ```bash
 python one_zone_grid.py
 ```
+
+### Example input files
+
+Copy one of the files of [input_params_examples/](input_params_examples/) to `input_params.dat`
+and run the script given in its header. Each file sets every parameter once; the first lines say
+what it reproduces.
+
+| File | Configuration | Script |
+| --- | --- | --- |
+| `input_params_7zone_grid_fun1_vartheta.dat` | Island-aligned grid, single 5/5 island, toroidal geometry, production resolution | `island_alinged_grid.py` |
+| `input_params_7zone_grid_multi_perturbation.dat` | Island-aligned grid for EMC3-EIRENE with five additional perturbations (`m = 9 ... 29`), production resolution | `island_alinged_grid.py` |
+| `input_params_paper_grids_one_and_multi_zone.dat` | Grids of the paper: the multi-zone (`flag_type_init = 3`) and the one-zone (`flag_type_init = 4`) grid at low resolution, one poloidal plane | `island_alinged_grid.py`, `one_zone_grid.py` |
+| `input_params_paper_box_tracing.dat` | Field-line tracing of the paper: a box of 20 x 20 points near the X-point over 60 field periods | `trace_box_points.py` |
+| `input_params_paper_poincare_x_point.dat` | Poincaré plot of the paper zoomed on the X-point, 5/5 island alone, 150 field periods with scipy | `island_alinged_grid.py` |
+| `input_params_poincare_analyt_example.dat` | Poincaré plot with the analytic pendulum solution | `island_alinged_grid.py` |
+
+The initial points of the Poincaré plot of the paper were placed with a spacing option that is
+not part of this repository, so their distribution differs from the published figure.
 
 ### EMC3-EIRENE input files
 
