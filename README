@@ -1,4 +1,0 @@
-To create field aligned grid follow steps:
-1) make input_params.dat (not tracked by git) based on input_params_example.dat
-2) modify input_params.dat according required parameters
-3) run island_alinged_grid.py
