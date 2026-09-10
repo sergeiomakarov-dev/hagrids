@@ -11,3 +11,6 @@ tmp*
 __pycache__/
 base0.dat
 poincare_map_*.dat
+output/IncidenceHamiltsym72
+output/IncidenceHamiltsym72v2
+output/VesselHamilt_r70
