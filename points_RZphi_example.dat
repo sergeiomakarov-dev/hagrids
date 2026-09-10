@@ -1,0 +1,8 @@
+# Example coordinates file for magnetic_field_at_points.py
+# Columns: R (m)   Z (m)   phi (rad)
+6.40    0.00    0.0
+6.40    0.00    0.6283185307179586
+5.40    0.00    0.0
+6.20    0.20    0.3141592653589793
+5.90    0.45    0.0
+6.327  -0.351   0.0

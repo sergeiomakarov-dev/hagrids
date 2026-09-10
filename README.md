@@ -59,6 +59,17 @@ For a one-zone grid (set `flag_type_init = 4` in the input parameters), run:
 python one_zone_grid.py
 ```
 
+### Magnetic field at given points
+
+To evaluate the magnetic field at a list of (R, Z, phi) coordinates read from a file
+(see [points_RZphi_example.dat](points_RZphi_example.dat) for the format), run:
+
+```bash
+python magnetic_field_at_points.py [coords_file] [output_file]
+```
+
+The result is written to `output/magnetic_field_at_points.dat` by default.
+
 ## Repository overview
 
 | File(s) | Purpose |
@@ -68,6 +79,7 @@ python one_zone_grid.py
 | `island_alinged_grid.py`, `one_zone_grid.py` | Island-aligned and one-zone grid generation |
 | `create_points_in_core.py`, `create_points_in_island.py`, `create_points_in_pfr.py`, `create_points_one_zone.py` | Base-point generation in the core, island, and private-flux regions |
 | `magnetic_feild_calculation.py` | Magnetic field evaluation |
+| `magnetic_field_at_points.py`, `points_RZphi_example.dat` | Magnetic field calculation at (R, Z, phi) points read from a file |
 | `check_boundary_points_island_alinged_grids.py`, `transform_theta_to_vartheta_island_alinged_grids.py` | Grid checking and coordinate transformation utilities |
 | `plot_*.py`, `read_and_plot_*.py`, `fun_plot.py`, `write_poicare_to_text.py` | Plotting and Poincaré-section utilities |
 | `*.m` | MATLAB counterparts of selected routines |
