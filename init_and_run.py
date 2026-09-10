@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import ellipj, ellipk, ellipkinc
 from scipy.integrate import solve_ivp
 import input_params as ip
-import create_points_in_the_island as cp
+import create_points_in_island as cp
 import fun_time_independent_mh as fi
 
 # Phi span and initial alpha and psi points
@@ -87,4 +87,4 @@ elif ip.flag_type_init == 3:
     alpha_0 = alpha_arr_temp.flatten(order='F')   
     psi_t_0 = psi_arr_temp.flatten(order='F')
 
-R_lines, Z_lines, theta_lines = fi.make_poincare (phi_span, alpha_0, psi_t_0)
+R_lines, Z_lines, theta_lines, phi = fi.make_poincare (phi_span, alpha_0, psi_t_0, ip.n_lines_tot)
