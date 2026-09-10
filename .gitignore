@@ -11,3 +11,9 @@ tmp*
 __pycache__/
 base0.dat
 poincare_map_*.dat
+output/grid3D.dat
+output/bfield.dat
+output/resolution1z.dat
+output/resolution7z.dat
+output/input.geo
+output/input.N0G

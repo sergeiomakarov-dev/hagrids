@@ -59,6 +59,24 @@ For a one-zone grid (set `flag_type_init = 4` in the input parameters), run:
 python one_zone_grid.py
 ```
 
+### EMC3-EIRENE input files
+
+Both grid scripts store the grid as pickle files in `output/`. To write it in the EMC3-EIRENE
+format and to generate the corresponding `input.geo` and `input.N0G` files, run from the
+repository root:
+
+```bash
+python emc3_eirene_input/write_emc3_grid.py [output_dir]
+python emc3_eirene_input/make_input_geo_n0g.py [resolution_file] [output_dir]
+```
+
+`write_emc3_grid.py` reads the grid selected by `flag_type_init` (3: island-aligned grid with
+the core, the `m` islands and the PFR as separate zones; 4: one-zone grid) and writes
+`grid3D.dat` (coordinates, in cm and degrees), `bfield.dat` (field strength at the grid points)
+and the resolution file `resolution7z.dat` or `resolution1z.dat`. `make_input_geo_n0g.py` reads
+that resolution file, by default the one matching `flag_type_init`, and writes `input.geo` and
+`input.N0G`; the latter refers to `./ADD_SF_N0`, the additional surfaces for the neutrals.
+
 ### Magnetic field at given points
 
 To evaluate the magnetic field at a list of (R, Z, phi) coordinates read from a file
@@ -78,6 +96,7 @@ The result is written to `output/magnetic_field_at_points.dat` by default.
 | `fun_time_independent_mh.py`, `fun_time_dependent_mh.py` | Core routines for the time-independent and time-dependent magnetic Hamiltonian |
 | `island_alinged_grid.py`, `one_zone_grid.py` | Island-aligned and one-zone grid generation |
 | `create_points_in_core.py`, `create_points_in_island.py`, `create_points_in_pfr.py`, `create_points_one_zone.py` | Base-point generation in the core, island, and private-flux regions |
+| `emc3_eirene_input/` (`write_emc3_grid.py`, `make_input_geo_n0g.py`) | Grid export in the EMC3-EIRENE format and generation of `input.geo` / `input.N0G` |
 | `magnetic_feild_calculation.py` | Magnetic field evaluation |
 | `magnetic_field_at_points.py`, `points_RZphi_example.dat` | Magnetic field calculation at (R, Z, phi) points read from a file |
 | `check_boundary_points_island_alinged_grids.py`, `transform_theta_to_vartheta_island_alinged_grids.py` | Grid checking and coordinate transformation utilities |

@@ -186,7 +186,9 @@ if ip.flag_output == 1:
     with open(f"./output/R{ip.path}.pkl", "wb") as file:
         pickle.dump(R_lines_theta_r, file)
     with open(f"./output/Z{ip.path}.pkl", "wb") as file:
-        pickle.dump(Z_lines_theta_r, file)    
+        pickle.dump(Z_lines_theta_r, file)
+    with open(f"./output/B{ip.path}.pkl", "wb") as file:
+        pickle.dump(B_lines_theta_r, file)
 '''      
 if ip.flag_output == 1:
     with open("R_lines_oz.pkl", "wb") as file:
