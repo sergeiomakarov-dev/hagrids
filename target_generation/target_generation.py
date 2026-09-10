@@ -24,7 +24,7 @@ requires. A Kisslinger file has the structure
     ...
 
 Usage, from the repository root:
-    python emc3_eirene_input/target_generation.py [output_dir]
+    python target_generation/target_generation.py [output_dir]
 
 Defaults:
     output_dir = output
