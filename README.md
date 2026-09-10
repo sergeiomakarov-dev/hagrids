@@ -65,7 +65,7 @@ python one_zone_grid.py
 | --- | --- |
 | `input_params.py`, `input_params_example.dat` | Input parameter parsing and example configuration |
 | `fun_time_independent_mh.py`, `fun_time_dependent_mh.py` | Core routines for the time-independent and time-dependent magnetic Hamiltonian |
-| `init_and_run.py`, `run_time_indepndent_magnetic_hamiltonian.py`, `run_time_depndent_magnetic_hamiltonian.py` | Field-line tracing / Hamiltonian integration drivers |
+| `init_and_run.py`, `run_time_indepndent_magnetic_hamiltonian.py`, `run_time_depndent_magnetic_hamiltonian.py` | Legacy field-line tracing / Hamiltonian integration drivers (kept for reference) |
 | `island_alinged_grid.py`, `one_zone_grid.py` | Island-aligned and one-zone grid generation |
 | `create_points_in_core.py`, `create_points_in_island.py`, `create_points_in_pfr.py`, `create_points_one_zone.py` | Base-point generation in the core, island, and private-flux regions |
 | `magnetic_feild_calculation.py` | Magnetic field evaluation |
