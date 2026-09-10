@@ -51,6 +51,25 @@ Some auxiliary analysis scripts are also provided in MATLAB (`*.m`).
 
 Example input files are provided in [input_params_examples/](input_params_examples/). Generated grids and data are written to the [output/](output/) directory.
 
+#### Cell size distribution
+
+The grid points are placed by a spacing function that maps uniformly spaced values
+`u` in `[0, 1]` onto each grid interval: radially from the inner boundary to the separatrix
+(core), from the separatrix to the O-point (island) and from the separatrix to the outer
+boundary (PFR); poloidally from the X-point to the O-point level. Two spacing functions are
+available and are selected separately for the radial and the poloidal direction by
+`flag_rad_spacing_fun` and `flag_pol_spacing_fun`:
+
+| Flag | Spacing function | Parameters |
+| --- | --- | --- |
+| `0` | Power function `u^alpha` | `alpha_island_rad`, `alpha_core_rad`, `alpha_pfr_rad`, `alpha_pol` |
+| `1` | Cubic polynomial with the slopes `alpha` at the start and `beta` at the end of the interval | the `alpha_*` parameters and `beta_island_rad`, `beta_core_rad`, `beta_pfr_rad`, `beta_pol` |
+
+For the cubic polynomial, `alpha` and `beta` are the cell sizes at the two ends of the
+interval relative to the uniform spacing. The polynomial has to be monotonic; otherwise the
+script stops with an error. The spacing functions of the appendix of the paper are
+reproduced by `input_params_examples/input_params_paper_appendix_spacing.dat`.
+
 ### One-zone grid generation
 
 For a one-zone grid (set `flag_type_init = 4` in the input parameters), run:

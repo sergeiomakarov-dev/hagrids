@@ -23,7 +23,8 @@ for m_period in range(ip.m):
 
     Q_X = fi.X_O_energy(0.5, g*ip.k/p_0, g, ip.flag_type_A_fun)
     
-    Q_arr = fi.radial_spacing(Q_min, Q_X, ip.n_E_core, ip.alpha_core_rad)
+    Q_arr = fi.radial_spacing(Q_min, Q_X, ip.n_E_core, alpha=ip.alpha_core_rad, beta=ip.beta_core_rad,
+                              flag_spacing_fun=ip.flag_rad_spacing_fun)
     Q_arr[len(Q_arr)-1]=Q_X
     
     kin_tilde_arr = np.zeros((ip.n_E_core, ip.n_kin))
@@ -45,7 +46,8 @@ for m_period in range(ip.m):
             if ip.flag_poloidal_initialization == 0 and ip.flag_type_A_fun == 0: 
                 kin_tilde_arr[i_E_tilde,:] = fi.poloidal_spacing(Q_arr[i_E_tilde]-g, 
                                                                  Q_arr[i_E_tilde]+g, ip.n_kin,
-                                                                 alpha=ip.alpha_pol)
+                                                                 alpha=ip.alpha_pol, beta=ip.beta_pol,
+                                                                                           flag_spacing_fun=ip.flag_pol_spacing_fun)
                 for i_kin_tilde in range(len(kin_tilde_arr[i_E_tilde])):           
                     if kin_tilde_arr[i_E_tilde,i_kin_tilde] >= 0:  
                         p_arr_neg[i_E_tilde,i_kin_tilde] = -np.sqrt(2*kin_tilde_arr[i_E_tilde,i_kin_tilde])
@@ -70,7 +72,8 @@ for m_period in range(ip.m):
                         gamma_arr_neg_2[i_E_tilde,i_kin_tilde] = 2 * np.pi * m_period 
             elif ip.flag_poloidal_initialization == 1:
                 cos_gamma_arr = fi.poloidal_spacing(-1.0, 1.0, 
-                                                                 ip.n_kin, alpha=ip.alpha_pol)
+                                                                 ip.n_kin, alpha=ip.alpha_pol, beta=ip.beta_pol,
+                                                                                           flag_spacing_fun=ip.flag_pol_spacing_fun)
                 gamma_arr_2[i_E_tilde,:] = np.arccos (cos_gamma_arr[:]) + 2 * np.pi * m_period
                 gamma_arr_neg_2[i_E_tilde,:] = -np.arccos (cos_gamma_arr[:]) + 2 * np.pi * m_period
                 for i_gamma in range(len(gamma_arr_2[i_E_tilde])):
