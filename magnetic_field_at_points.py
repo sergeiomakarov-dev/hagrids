@@ -26,10 +26,10 @@ import numpy as np
 
 import input_params as ip
 import magnetic_feild_calculation as mfc
-from fun_time_independent_mh import R_Z_to_r_vartheta
+from fun_time_independent_mh import R_Z_to_r_vartheta, field_perturbation_form
 
 # Same choice of flags as in fun_time_independent_mh.py
-flag_form = ip.flag_Stoermer_Verlet_td or ip.flag_scipy_num_td or ip.flag_Yoshida_td
+flag_form = field_perturbation_form()
 flag_toroildal = ip.flag_vartheta
 
 
@@ -62,6 +62,8 @@ def magnetic_field_at_points(R_arr, Z_arr, phi_arr):
                                           iota_res=ip.iota_res, iota_res1=ip.iota_res1,
                                           iota_res2=ip.iota_res2, iota_res3=ip.iota_res3,
                                           A=ip.A, A1=ip.A1, A2=ip.A2, A3=ip.A3, k=ip.k,
+                                          A_arr=ip.A_arr[:ip.n_perturbation], m_arr=ip.m_arr[:ip.n_perturbation],
+                                          iota_res_arr=ip.iota_res_arr[:ip.n_perturbation],
                                           flag_form=flag_form,
                                           flag_toroildal=flag_toroildal,
                                           flag_type_A_fun=ip.flag_type_A_fun)
