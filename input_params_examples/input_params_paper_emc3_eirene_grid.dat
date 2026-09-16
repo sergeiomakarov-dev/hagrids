@@ -1,0 +1,112 @@
+## EMC3-EIRENE grid of the paper: island aligned grid with the 5/5 island and one additional 11/10 perturbation (A2 = -24e-4), production resolution
+## Run: python island_alinged_grid.py, then the scripts of emc3_eirene_input/
+## The grid is generated in the cylindrical geometry (flag_vartheta = 0); run transform_theta_to_vartheta_island_alinged_grids.py on the output to obtain the toroidal geometry
+
+## Common input parameters
+
+# Geometry
+psi_t_min = 0.25              # Minimal toroidal flux defines inner boundary position (Wb)
+psi_t_max = 1.76              # Maximal toroidal flux defines outer boundary position (Wb)
+B_0 = 1                       # Toroidal magnetic field on the axis (T)
+R_0 = 5.9                     # Major radius (m)
+
+# Iota profile: iota (psi_t) = iota_a * psi_t + iota_b
+iota_b = 0.7                  # First iota coefficient
+iota_a = 0.3                  # Second iota coefficient
+
+# Toroidal direction parameters
+n_turns = 1                   # Number of field periods to trace
+nfp = 5                       # Field period
+points = 45                   # Points per one field period
+n_poincare = 46               # First n_poincare poloidal planes will be stored in the file
+n_space_points = 1            # Step in points between two poloidal planes that are stored
+# If you generate a grid: usually n_poincare = (points * n_turns / n_space_points) + 1.
+# If you generate a poincare plot: for flag_sym = 1, n_space_points = 2 * points and for flag_sym = 0, n_space_points = points is recommended.
+
+## Time independent hamiltonian method input parameters
+
+# Island parameters
+m = 5                         # Poloidal number
+n = 5                         # Toroidal number
+A = -6e-3                     # Perturbation amplitude (should be a negative number, if there is no strong reason to do otherwise)
+k = 2.0                       # Slope of the perturbation amplitude in psi_t, A * (1 + k * (psi_t - psi_0) / psi_0), used if flag_type_A_fun = 1
+
+## Time dependent hamiltonian method input parameters
+
+# Perturbations: poloidal number, toroidal number and amplitude. With flag_type_A_fun = 1 and flag_f_modificator = 2 only the first one is used
+m1 = 5
+n1 = 5
+A1 = -6e-3
+
+m2 = 11
+n2 = 10
+A2 = -24e-4
+
+m3 = 9
+n3 = 10
+A3 = 0
+
+# Additional perturbations, used only if flag_type_A_fun = 1 and flag_f_modificator = 2: here the 11/10 perturbation alone
+n_perturbation = 1            # Number of additional perturbations
+A_list = [-24e-4]             # Their amplitudes
+n_list = [10]                 # Their toroidal numbers
+m_list = [11]                 # Their poloidal numbers
+
+# Envelope of the additional perturbations in psi_t (flag_f_modificator = 1 or 2): switched on for psi_t > psi_shift_2 over the width psi_width_2
+psi_width_2 = 0.07
+psi_shift_2 = 1.3
+
+## Initial points
+
+flag_type_init = 3            # = 1 line of points from (R_start, Z_const) to (R_end, Z_const), = 3 island aligned grid, = 4 one zone grid, = 5 box of points (trace_box_points.py)
+
+# Grid resolution
+n_E = 74                      # Number of radial points in the island
+n_E_core = 80                 # Number of radial points in the core region
+n_E_pfr = 24                  # Number of radial points in the PFR region
+n_kin = 37                    # Number of poloidal points from X-point to O-point level (quarter of island)
+
+# Cell size distribution
+alpha_island_rad = 2          # Exponent controls the radial cell size in the island
+alpha_core_rad = 0.2          # Exponent controls the radial cell size in the core region
+alpha_pfr_rad = 3.0           # Exponent controls the radial cell size in the PFR region
+alpha_pol = 2                 # Exponent controls the poloidal cell size
+
+min_E_fac = 250               # Factor that defines a minimal energy in the island, which defines the boundary near O-point. min_E = - 2 * A / min_E_fac
+
+frac_d_1 = 0.07               # Used, if flag_type_init = 4 (one zone grid). The frac_d_1 controls the flux surfaces in the core and pfr regions, which are used for a grid generation as intermediate flux surfaces. Larger frac_d_1 makes these surfaces further from the separatrix
+
+## Control flags
+
+# Integrators, exactly one should be 1
+flag_analyt = 0               # Analytic pendulum solution (time independent method)
+flag_Stoermer_Verlet = 0      # Stoermer-Verlet integrator (time independent method)
+flag_Stoermer_Verlet_mod = 0  # Modified Stoermer-Verlet integrator (time independent method)
+flag_Yoshida = 0              # Yoshida integrator (time independent method)
+flag_Stoermer_Verlet_td = 0   # Stoermer-Verlet integrator (time dependent method)
+flag_scipy_num_td = 0         # scipy solve_ivp with the method below (time dependent method)
+flag_Yoshida_td = 1           # Yoshida integrator (time dependent method)
+
+# Method of scipy solve_ivp, if flag_scipy_num_td = 1
+method = 'Radau'              # 'Radau', 'RK45', 'BDF' or 'LSODA'
+
+# Magnetic field shape
+flag_vartheta = 0             # If 1, the vartheta is shifted with respect to the theta (toroidal configuration, B ~ 1/R). If 0, then vartheta = theta (cylindrical configuration, B ~ const)
+flag_type_A_fun = 1           # If 1, a linear in psi the perturbation amplitude is used in the Hamiltonian. If 0, a constant in psi the perturbation amplitude is used in the Hamiltonian
+flag_poloidal_initialization = 1  # If 1, a poloidal initialization is based on the cos(theta) spacing. If 0, a poloidal initialization is based on the kinetic energy spacing
+flag_f_modificator = 2        # Used if flag_type_A_fun = 1. 0: perturbations 1 to 3 as they are. 1: the envelope is applied to perturbation 2. 2: perturbation 1 plus the additional perturbations with the envelope
+
+# Tracing
+flag_sym = 1                  # If 1, a field-line tracing is symmetrically performed in the negative direction. If 0, then only in positive direction a field-line is performed.
+
+# Plots
+flag_plot_grid = 1            # If 1, 2D plot of the grid is build
+flag_plot_cell_size = 1       # If 1, 1D plots of the cell size distribution are build
+flag_poincare = 0             # If 1, the poincare plot of the traced points is build
+flag_plot_field_lines_n_magnetic_field = 0  # If 1, 3D plot of the field lines and the magnetic field vectors is build (one zone grid)
+
+# Output
+flag_output = 1               # If 1, grid (or poincare) data is stored in *.pkl files
+
+# Path
+path = "_fun1_yotd_7z_A2_m24em4_min_025"  # Suffix of the output file names

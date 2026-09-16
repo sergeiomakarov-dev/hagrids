@@ -51,6 +51,29 @@ Some auxiliary analysis scripts are also provided in MATLAB (`*.m`).
 
 Example input files are provided in [input_params_examples/](input_params_examples/), see the list below. Generated grids and data are written to the [output/](output/) directory.
 
+#### Cylindrical and toroidal geometry
+
+`flag_vartheta` selects the geometry of the flux surfaces. With `flag_vartheta = 0` the
+poloidal angle of the model is the geometric one, `vartheta = theta`, and the field strength
+is constant on a flux surface (cylindrical configuration). With `flag_vartheta = 1` the two
+angles differ, `theta = vartheta - epsilon * sin(vartheta)`, and `B ~ 1/R` (toroidal
+configuration).
+
+Running with `flag_vartheta = 0` and transforming the stored grid afterwards with
+
+```bash
+python transform_theta_to_vartheta_island_alinged_grids.py
+```
+
+is equivalent to running with `flag_vartheta = 1` directly, and is the recommended way to
+obtain a grid in the toroidal geometry: it runs faster, and it avoids the solver for
+`vartheta` getting stuck in finding a solution, which happens in practice with
+`flag_vartheta = 1`. The script reads the grid `output/*<path_in>.pkl`, transforms the points
+and evaluates the magnetic field of the toroidal configuration on them, and writes
+`output/*<path_out>.pkl`; `path_in`, `path_out` and `flag_sym` are set at the top of the
+script and have to match the `path` and `flag_sym` of the run. The EMC3-EIRENE grid of the
+paper, `input_params_examples/input_params_paper_emc3_eirene_grid.dat`, is generated this way.
+
 #### Cell size distribution
 
 The grid points are placed by a spacing function that maps uniformly spaced values
@@ -88,6 +111,7 @@ what it reproduces.
 | --- | --- | --- |
 | `input_params_7zone_grid_fun1_vartheta.dat` | Island-aligned grid, single 5/5 island, toroidal geometry, production resolution | `island_alinged_grid.py` |
 | `input_params_7zone_grid_multi_perturbation.dat` | Island-aligned grid for EMC3-EIRENE with five additional perturbations (`m = 9 ... 29`), production resolution | `island_alinged_grid.py` |
+| `input_params_paper_emc3_eirene_grid.dat` | EMC3-EIRENE grid of the paper: island-aligned grid with the 5/5 island and one additional 11/10 perturbation, production resolution, cylindrical geometry to be transformed with `transform_theta_to_vartheta_island_alinged_grids.py` | `island_alinged_grid.py` |
 | `input_params_paper_grids_one_and_multi_zone.dat` | Grids of the paper: the multi-zone (`flag_type_init = 3`) and the one-zone (`flag_type_init = 4`) grid at low resolution, one poloidal plane | `island_alinged_grid.py`, `one_zone_grid.py` |
 | `input_params_paper_box_tracing.dat` | Field-line tracing of the paper: a box of 20 x 20 points near the X-point over 60 field periods | `trace_box_points.py` |
 | `input_params_paper_poincare_x_point.dat` | Poincaré plot of the paper zoomed on the X-point, 5/5 island alone, 150 field periods with scipy | `island_alinged_grid.py` |
