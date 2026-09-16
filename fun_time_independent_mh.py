@@ -813,10 +813,10 @@ def mag_field_in_pol_planes(R_lines_theta_r, Z_lines_theta_r, phi_theta_r, flag_
                 Br_temp, Bvartheta_temp, Bvarphi_temp = \
                     mfc.magnetic_field_components(r_temp, vartheta_temp, phi_temp, ip.B_0, ip.R_0,
                                                   iota_a=ip.iota_a, iota_b=ip.iota_b,
-                                                  m=ip.m, m1=ip.m1, m2=ip.m2, 
-                                                  iota_res=ip.iota_res, iota_res1=ip.iota_res1, iota_res2=ip.iota_res2,
-                                                  A=ip.A, A1=ip.A1, A2=ip.A2, k=ip.k, 
-                                                  flag_form=ip.flag_analyt or ip.flag_Stoermer_Verlet or ip.flag_Stoermer_Verlet_mod or ip.flag_Yoshida,
+                                                  m=ip.m, m1=ip.m1, m2=ip.m2, m3=ip.m3,
+                                                  iota_res=ip.iota_res, iota_res1=ip.iota_res1, iota_res2=ip.iota_res2, iota_res3=ip.iota_res3,
+                                                  A=ip.A, A1=ip.A1, A2=ip.A2, A3=ip.A3, k=ip.k,
+                                                  flag_form=ip.flag_Stoermer_Verlet_td or ip.flag_scipy_num_td or ip.flag_Yoshida_td,
                                                   flag_toroildal=flag_vartheta,
                                                   flag_type_A_fun=ip.flag_type_A_fun)
                 
