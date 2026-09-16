@@ -29,7 +29,7 @@ import magnetic_feild_calculation as mfc
 from fun_time_independent_mh import R_Z_to_r_vartheta
 
 # Same choice of flags as in fun_time_independent_mh.py
-flag_form = ip.flag_analyt or ip.flag_Stoermer_Verlet or ip.flag_Stoermer_Verlet_mod or ip.flag_Yoshida
+flag_form = ip.flag_Stoermer_Verlet_td or ip.flag_scipy_num_td or ip.flag_Yoshida_td
 flag_toroildal = ip.flag_vartheta
 
 
