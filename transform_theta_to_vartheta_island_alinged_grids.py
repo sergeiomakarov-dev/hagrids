@@ -74,31 +74,27 @@ B_lines_theta_r_pfr_out = [np.zeros(R_lines_theta_r_pfr_in[0].shape) for _ in ra
 
 #phi = [0 for _ in range(len(R_lines_theta_r_core_in))] 
 
+# Toroidal angles of the stored planes, as in island_alinged_grid.py and make_poincare: the field
+# lines are traced over n_turns * points steps per direction and every n_space_points-th plane
+# is stored, n_poincare planes in total per direction
 if flag_sym == 1:
-    phi_span_pos = np.linspace(0, ip.n_turns * np.pi / ip.nfp, len(R_lines_theta_r_core_in))   
-    phi_span_neg = np.linspace(0, -ip.n_turns * np.pi / ip.nfp, len(R_lines_theta_r_core_in))
-    
-    phi_theta_r = [0] * (len(R_lines_theta_r_core_in))
-        
-    # phi_theta_r[len(phi_span_pos)-1:2 * len(phi_span_pos) - 1] = \
-    # [np.array([phi_span_pos[i]]) for i in range(len(phi_span_pos))]
-
-    # phi_theta_r[0:len(phi_span_pos)-1] = \
-    # phi_span_neg[:0:-1]
-    
-    # Transfer updated phi_theta_r slice as separate numpy arrays
-    phi_theta_r[len(phi_span_pos)-1:2 * len(phi_span_pos) - 1] = \
-        [np.array([val]) for val in phi_span_pos[0:]]
-
-    # Transfer negative phi_span_neg[:0:-1] values as separate numpy arrays
-    phi_theta_r[0:len(phi_span_pos)-1] = \
-        [np.array([val]) for val in phi_span_neg[:0:-1]]
+    phi_span_pos = np.linspace(0, ip.n_turns * np.pi / ip.nfp, ip.n_turns * ip.points + 1)
+    phi_span_neg = np.linspace(0, -ip.n_turns * np.pi / ip.nfp, ip.n_turns * ip.points + 1)
 else:
-    phi_span_pos = np.linspace(0, ip.n_turns * 2 * np.pi / ip.nfp, len(R_lines_theta_r_core_in))   
-    phi_span_neg = []  
-    
-    phi_theta_r = [np.array([val]) for val in phi_span_pos[0:]]
-        
+    phi_span_pos = np.linspace(0, ip.n_turns * 2 * np.pi / ip.nfp, ip.n_turns * ip.points + 1)
+    phi_span_neg = []
+
+phi_pos = phi_span_pos[::ip.n_space_points][:ip.n_poincare]
+phi_neg = phi_span_neg[::ip.n_space_points][:ip.n_poincare] if flag_sym == 1 else np.array([])
+
+# For flag_sym = 1 the planes traced in the negative direction come first, reversed, and share
+# the plane phi = 0 with the planes traced in the positive direction (see comb_pos_neg)
+phi_all = np.concatenate((phi_neg[:0:-1], phi_pos))
+if len(phi_all) != len(R_lines_theta_r_core_in):
+    raise ValueError(f"{len(R_lines_theta_r_core_in)} planes stored in the grid files, but "
+                     f"n_poincare = {ip.n_poincare} and flag_sym = {flag_sym} give {len(phi_all)} planes")
+phi_theta_r = [np.array([val]) for val in phi_all]
+
 # Perform the trasformation
 #-----------------------------------------------------------------------------    
 # End the timer
