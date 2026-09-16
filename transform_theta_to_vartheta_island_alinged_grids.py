@@ -75,24 +75,14 @@ B_lines_theta_r_pfr_out = [np.zeros(R_lines_theta_r_pfr_in[0].shape) for _ in ra
 #phi = [0 for _ in range(len(R_lines_theta_r_core_in))] 
 
 if flag_sym == 1:
-    phi_span_pos = np.linspace(0, ip.n_turns * np.pi / ip.nfp, len(R_lines_theta_r_core_in))   
-    phi_span_neg = np.linspace(0, -ip.n_turns * np.pi / ip.nfp, len(R_lines_theta_r_core_in))
-    
-    phi_theta_r = [0] * (len(R_lines_theta_r_core_in))
-        
-    # phi_theta_r[len(phi_span_pos)-1:2 * len(phi_span_pos) - 1] = \
-    # [np.array([phi_span_pos[i]]) for i in range(len(phi_span_pos))]
+    # The stored planes run from -n_turns * pi / nfp to n_turns * pi / nfp: the planes traced
+    # in the negative direction, reversed, followed by the planes traced in the positive
+    # direction, which share the plane phi = 0 (see comb_pos_neg)
+    n_pos = (len(R_lines_theta_r_core_in) + 1) // 2
+    phi_span_pos = np.linspace(0, ip.n_turns * np.pi / ip.nfp, n_pos)
+    phi_span_neg = np.linspace(0, -ip.n_turns * np.pi / ip.nfp, n_pos)
 
-    # phi_theta_r[0:len(phi_span_pos)-1] = \
-    # phi_span_neg[:0:-1]
-    
-    # Transfer updated phi_theta_r slice as separate numpy arrays
-    phi_theta_r[len(phi_span_pos)-1:2 * len(phi_span_pos) - 1] = \
-        [np.array([val]) for val in phi_span_pos[0:]]
-
-    # Transfer negative phi_span_neg[:0:-1] values as separate numpy arrays
-    phi_theta_r[0:len(phi_span_pos)-1] = \
-        [np.array([val]) for val in phi_span_neg[:0:-1]]
+    phi_theta_r = [np.array([val]) for val in np.concatenate((phi_span_neg[:0:-1], phi_span_pos))]
 else:
     phi_span_pos = np.linspace(0, ip.n_turns * 2 * np.pi / ip.nfp, len(R_lines_theta_r_core_in))   
     phi_span_neg = []  
