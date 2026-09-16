@@ -123,7 +123,8 @@ def write_grid3d(zones, file_path):
             n_rad, n_pol, n_tor = resolution(zone)
             file.write(f" {n_rad} {n_pol} {n_tor}\n")
             for i_tor in range(n_tor):
-                file.write(f" {i_tor * (360.0 / ip.nfp) / (n_tor - 1)}\n")
+                phi = i_tor * (360.0 / ip.nfp) / (n_tor - 1) if n_tor > 1 else 0.0
+                file.write(f" {phi}\n")
                 write_values(file, zone['R'][i_tor] * M_TO_CM)
                 write_values(file, zone['Z'][i_tor] * M_TO_CM)
 
