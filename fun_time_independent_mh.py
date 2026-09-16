@@ -784,7 +784,24 @@ def check_discriminant(a, b, c, flag_type_A_fun):
     
     return discriminant
 
+def field_perturbation_form():
+    """Perturbation set of magnetic_field_components matching the traced Hamiltonian.
+
+    0: time-independent method, the single perturbation (m, A).
+    1: time-dependent method with the perturbations (m1, A1), (m2, A2), (m3, A3)
+       (flag_type_A_fun = 0, or flag_f_modificator = 0 or 1).
+    2: time-dependent method with the perturbation (m1, A1) plus the additional
+       perturbations A_list, m_list, n_list (flag_type_A_fun = 1 and flag_f_modificator = 2 or 3).
+    The psi envelope of flag_f_modificator = 1 and 2 is not included in the field.
+    """
+    if ip.flag_Stoermer_Verlet_td or ip.flag_scipy_num_td or ip.flag_Yoshida_td:
+        if ip.flag_type_A_fun == 1 and ip.flag_f_modificator in (2, 3):
+            return 2
+        return 1
+    return 0
+
 def mag_field_in_pol_planes(R_lines_theta_r, Z_lines_theta_r, phi_theta_r, flag_vartheta=ip.flag_vartheta):
+    flag_form = field_perturbation_form()
     Br_lines_theta_r = []
     Bvartheta_lines_theta_r = []
     Bvarphi_lines_theta_r = []
@@ -816,7 +833,9 @@ def mag_field_in_pol_planes(R_lines_theta_r, Z_lines_theta_r, phi_theta_r, flag_
                                                   m=ip.m, m1=ip.m1, m2=ip.m2, m3=ip.m3,
                                                   iota_res=ip.iota_res, iota_res1=ip.iota_res1, iota_res2=ip.iota_res2, iota_res3=ip.iota_res3,
                                                   A=ip.A, A1=ip.A1, A2=ip.A2, A3=ip.A3, k=ip.k,
-                                                  flag_form=ip.flag_Stoermer_Verlet_td or ip.flag_scipy_num_td or ip.flag_Yoshida_td,
+                                                  A_arr=ip.A_arr[:ip.n_perturbation], m_arr=ip.m_arr[:ip.n_perturbation],
+                                                  iota_res_arr=ip.iota_res_arr[:ip.n_perturbation],
+                                                  flag_form=flag_form,
                                                   flag_toroildal=flag_vartheta,
                                                   flag_type_A_fun=ip.flag_type_A_fun)
                 
