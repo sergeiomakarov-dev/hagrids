@@ -219,8 +219,17 @@ def momentum_rhs(x, p, t):
                     ip.A_arr[i_p] * (1 + ip.k * ((p - ip.psi_0) / ip.psi_0)) * 
                     d_x_f_modificator(x, p, t) *
                     np.cos(ip.m_arr[i_p] * (x - ip.iota_res_arr[i_p] * t))))
+        elif ip.flag_f_modificator == 3:
+            # Perturbation 1 plus the additional perturbations as they are, without the envelope
+            mom_rhs = ( np.heaviside(1 + ip.k * ((p - ip.psi_0) / ip.psi_0), 1) * 
+                       (ip.m1 * ip.A1 * (1 + ip.k * ((p - ip.psi_0) / ip.psi_0)) *
+                       np.sin(ip.m1 * (x - ip.iota_res1 * t))))
+            for i_p in range(ip.n_perturbation):
+                mom_rhs += ( np.heaviside(1 + ip.k * ((p - ip.psi_0) / ip.psi_0), 1) * 
+                    ip.m_arr[i_p] * ip.A_arr[i_p] * (1 + ip.k * ((p - ip.psi_0) / ip.psi_0)) * 
+                    np.sin(ip.m_arr[i_p] * (x - ip.iota_res_arr[i_p] * t)))
         else:
-            raise ValueError("Invalid value for flag_f_modificator. Must be 0 or 1.")
+            raise ValueError("Invalid value for flag_f_modificator. Must be 0, 1, 2 or 3.")
     else:
         raise ValueError("Invalid value for flag_type_A_fun. Must be 0 or 1.")
     return mom_rhs
@@ -270,8 +279,20 @@ def coordinate_rhs(x, p, t):
                     np.cos(ip.m_arr[i_p] * (x - ip.iota_res_arr[i_p] * t))))
             if (1 + ip.k * ((p - ip.psi_0) / ip.psi_0)) == 0:
                 raise ValueError("The (1 + ip.k * ((p - ip.psi_0) / ip.psi_0)) = 0 point is non-differentiable")
+        elif ip.flag_f_modificator == 3:
+            # Perturbation 1 plus the additional perturbations as they are, without the envelope
+            coord_rhs = (ip.iota_a * p + ip.iota_b +
+                         np.heaviside(1 + ip.k * ((p - ip.psi_0) / ip.psi_0), 1) *
+                         (ip.A1 * (ip.k / ip.psi_0) *
+                         np.cos(ip.m1 * (x - ip.iota_res1 * t))))
+            for i_p in range(ip.n_perturbation):
+                coord_rhs += (np.heaviside(1 + ip.k * ((p - ip.psi_0) / ip.psi_0), 1) *
+                    ip.A_arr[i_p] * (ip.k / ip.psi_0) * 
+                    np.cos(ip.m_arr[i_p] * (x - ip.iota_res_arr[i_p] * t)))
+            if (1 + ip.k * ((p - ip.psi_0) / ip.psi_0)) == 0:
+                raise ValueError("The (1 + ip.k * ((p - ip.psi_0) / ip.psi_0)) = 0 point is non-differentiable")
         else:
-            raise ValueError("Invalid value for flag_f_modificator. Must be 0 or 1.")
+            raise ValueError("Invalid value for flag_f_modificator. Must be 0, 1, 2 or 3.")
     else:
         raise ValueError("Invalid value for flag_type_A_fun. Must be 0 or 1.")
     return coord_rhs

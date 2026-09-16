@@ -51,7 +51,7 @@ m3 = 9
 n3 = 10
 A3 = 0
 
-# Additional perturbations, used only if flag_type_A_fun = 1 and flag_f_modificator = 2
+# Additional perturbations, used only if flag_type_A_fun = 1 and flag_f_modificator = 2 or 3
 n_perturbation = 5            # Number of additional perturbations
 A_list = [-3e-4,-3e-4,-3e-4,-3e-4,-3e-4]  # Their amplitudes
 n_list = [10,15,20,25,30]     # Their toroidal numbers
@@ -99,7 +99,7 @@ method = 'Radau'              # 'Radau', 'RK45', 'BDF' or 'LSODA'
 flag_vartheta = 1             # If 1, the vartheta is shifted with respect to the theta (toroidal configuration, B ~ 1/R). If 0, then vartheta = theta (cylindrical configuration, B ~ const)
 flag_type_A_fun = 0           # If 1, a linear in psi the perturbation amplitude is used in the Hamiltonian. If 0, a constant in psi the perturbation amplitude is used in the Hamiltonian
 flag_poloidal_initialization = 0  # If 1, a poloidal initialization is based on the cos(theta) spacing. If 0, a poloidal initialization is based on the kinetic energy spacing
-flag_f_modificator = 2        # Used if flag_type_A_fun = 1. 0: perturbations 1 to 3 as they are. 1: the envelope is applied to perturbation 2. 2: perturbation 1 plus the additional perturbations with the envelope
+flag_f_modificator = 2        # Used if flag_type_A_fun = 1. 0: perturbations 1 to 3 as they are. 1: the envelope is applied to perturbation 2. 2: perturbation 1 plus the additional perturbations with the envelope. 3: perturbation 1 plus the additional perturbations as they are
 
 # Tracing
 flag_sym = 1                  # If 1, a field-line tracing is symmetrically performed in the negative direction. If 0, then only in positive direction a field-line is performed.
