@@ -29,7 +29,8 @@ def Br_perturbation(r, vartheta, varphi, m, A, iota_res, R, varepsilon, psi_0, B
         if flag_type_A_fun == 0:
             Br_pert = base_factor * np.sin(phase)
         elif flag_type_A_fun == 1:
-            extended_factor = base_factor * (1 - k + k * (np.pi * r**2 * B0) / psi_0)
+            floor_arg = 1 - k + k * (np.pi * r**2 * B0) / psi_0
+            extended_factor = base_factor * floor_arg * np.heaviside(floor_arg, 1.0)
             Br_pert = extended_factor * np.sin(phase)
         else:
             raise ValueError("Invalid value for flag_type_A_fun. Must be 0 or 1.")
@@ -39,7 +40,8 @@ def Br_perturbation(r, vartheta, varphi, m, A, iota_res, R, varepsilon, psi_0, B
         if flag_type_A_fun == 0:
             Br_pert = base_factor * np.sin(phase) - varepsilon * np.cos(vartheta) * base_factor * np.sin(phase)
         elif flag_type_A_fun == 1:
-            extended_factor = base_factor * (1 - k + k * (np.pi * r**2 * B0) / psi_0)
+            floor_arg = 1 - k + k * (np.pi * r**2 * B0) / psi_0
+            extended_factor = base_factor * floor_arg * np.heaviside(floor_arg, 1.0)
             Br_pert = extended_factor * np.sin(phase) - varepsilon * np.cos(vartheta) * extended_factor * np.sin(phase)
         else:
             raise ValueError("Invalid value for flag_type_A_fun. Must be 0 or 1.")
@@ -65,7 +67,9 @@ def Bvartheta_perturbation(r, vartheta, varphi, m, A, iota_res, R, varepsilon, p
         if flag_type_A_fun == 0:
             Bvartheta_pert = 0
         elif flag_type_A_fun == 1:
-            additional_term = (A / (2 * np.pi * r * R)) * (k * (2 * np.pi * r * B0) / psi_0) * np.cos(phase)
+            floor_arg = 1 - k + k * (np.pi * r**2 * B0) / psi_0
+            step = np.heaviside(floor_arg, 1.0)
+            additional_term = (A * k * r * B0 / (psi_0 * R)) * np.cos(phase) * step   # fixed
             Bvartheta_pert = additional_term
         else:
             raise ValueError("Invalid value for flag_type_A_fun. Must be 0 or 1.")
@@ -75,8 +79,10 @@ def Bvartheta_perturbation(r, vartheta, varphi, m, A, iota_res, R, varepsilon, p
         if flag_type_A_fun == 0:
             Bvartheta_pert = varepsilon * np.sin(vartheta) * base_factor * np.sin(phase)
         elif flag_type_A_fun == 1:
-            extended_factor = base_factor * (1 - k + k * (np.pi * r**2 * B0) / psi_0)
-            additional_term = (A / (2 * np.pi * r * R)) * (k * (2 * np.pi * r * B0) / psi_0) * np.cos(phase)
+            floor_arg = 1 - k + k * (np.pi * r**2 * B0) / psi_0
+            step = np.heaviside(floor_arg, 1.0)
+            extended_factor = base_factor * floor_arg * step
+            additional_term = (A * k * r * B0 / (psi_0 * R)) * np.cos(phase) * step   # fixed
             Bvartheta_pert = varepsilon * np.sin(vartheta) * extended_factor * np.sin(phase) + additional_term
         else:
             raise ValueError("Invalid value for flag_type_A_fun. Must be 0 or 1.")

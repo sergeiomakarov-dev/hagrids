@@ -6,7 +6,6 @@ from scipy.special import ellipj, ellipk, ellipkinc
 from scipy.integrate import solve_ivp
 import input_params as ip
 import mpmath
-from scipy.optimize import fsolve
 import magnetic_feild_calculation as mfc
 
 # functions
@@ -438,19 +437,19 @@ psi_from_momentum = lambda p_loc, iota_a_loc, psi_0_loc : p_loc / np.sqrt(iota_a
 alpha_from_gamma = lambda gamma_loc, m_period_loc, m_loc : (gamma_loc + 2 * np.pi * m_period_loc)/ m_loc
 alpha_from_gamma_mod = lambda gamma_loc, m_loc : gamma_loc / m_loc
 
-# Function to solve theta = vartheta - varepsilon * sin(vartheta) for a given theta and varepsilon
-def solve_for_vartheta(theta_value, varepsilon_value):
-    # Define the equation to solve
-    def equation(vartheta, varepsilon, theta):
-        return vartheta - varepsilon * np.sin(vartheta) - theta
-    
-    # Initial guess for vartheta
-    vartheta_initial_guess = theta_value
-    
-    # Solve the equation numerically
-    vartheta_solution = fsolve(equation, vartheta_initial_guess, args=(varepsilon_value, theta_value))
-    
-    return vartheta_solution
+# Do vectorized Newton-Rhapson iteration, faster than previous fsolve approach
+def solve_for_vartheta(theta_value, varepsilon_value, n_iter=8, tol=1e-13):
+    theta = np.asarray(theta_value, dtype=float)
+    varepsilon = np.asarray(varepsilon_value, dtype=float)
+    vartheta = theta.copy()   # initial guess: exact at varepsilon=0, good for small varepsilon
+    for _ in range(n_iter):
+        f  = vartheta - varepsilon * np.sin(vartheta) - theta
+        fp = 1.0 - varepsilon * np.cos(vartheta)
+        step = f / fp
+        vartheta = vartheta - step
+        if np.max(np.abs(step)) < tol:
+            break
+    return vartheta
 
 def psi_theta_to_R_Z(psi,theta, flag_vartheta = 1):
     r = np.sqrt(psi / (ip.B_0 * np.pi))
